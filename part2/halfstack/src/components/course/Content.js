@@ -1,8 +1,10 @@
 import React from 'react'
 
-const Content = ({part}) => {
+const Content = ({parts}) => {
     return (
-	    <p>{part.name} {part.exercises}</p>
+	<>
+	    {parts.map(part => <p key={part.id}>{part.name} {part.exercises}</p>)}
+	</>
     )
 }
 

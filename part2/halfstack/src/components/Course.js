@@ -1,16 +1,15 @@
 import React from 'react'
 import Header from './course/Header'
 import Content from './course/Content'
+import Total from './course/Total'
 
 const Course = ({course}) => {
-    console.log(course)
     return (
-	    <div>
+	    <>
 	    <Header name={course.name} />
-	    {course.parts.map(part => 
-			      <Content key={part.id} part={part} />
-			     )}
-	    </div>
+	    <Content parts={course.parts} />
+	    <Total parts={course.parts} />
+	    </>
     )
 }
 
