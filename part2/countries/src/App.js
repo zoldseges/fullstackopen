@@ -7,6 +7,7 @@ const App = () => {
     const [countries, setCountries] = useState([])
     const [findString, setFindString] = useState("")
     const [countriesShowIndexes, setCountriesShowIndexes] = useState([])
+
     useEffect (() => 
 	       axios
 	       .get('https://restcountries.com/v3.1/all')
