@@ -22,10 +22,17 @@ const App = () => {
 	    name: newName,
 	    number: newNumber,
 	}
-	if (persons.find(person => person.name.toLowerCase() === newPerson.name.toLowerCase())) {
-	    alert(`${newName} is already added to phonebook`)
+	// TODO check if the overwritten phonenumber is not in the phonebook already
+	if (found = persons.find(person => person.name.toLowerCase() === newPerson.name.toLowerCase())) {
+	    if (window.confirm(`Do you want to overwrite ${found.name}'s number from\n` +
+                                `${found.number} to ${newPerson.number}`)) {
+		personsService.update(found.id, newPerson).then(() => {
+		    personsService.getAll().then(fetchedPersons => setPersons(fetchedPersons))
+
+		})
+	    }
 	} else if (found = persons.find(person => person.number === newPerson.number)){
-	    alert(`${newNumber} is already added to phonebook for ${found.name}`)
+	    alert(`${found.number} is already assigned to ${found.name}`)
 	} else {
 	    personsService.create(newPerson)
 		.then(person => {
@@ -37,6 +44,7 @@ const App = () => {
     }
     
     const deleteHandler = (persons, id) => {
+	// TODO synchronize client side without refetching (like as we did at adding new number)
 	const person = persons.find(person => person.id == id)
 	if (window.confirm(`Do you really want to delete ${person.name}`)) {
 	    personsService.remove(id).then(() => {
