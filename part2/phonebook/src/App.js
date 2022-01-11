@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import Form from './components/Form'
 import NumberList from './components/NumberList'
-import axios from 'axios'
+import personsService from './services/persons'
 
 const App = () => {
     const [persons, setPersons] = useState([])
@@ -11,29 +11,25 @@ const App = () => {
     const [filterString, setFilterString] = useState('')
 
     useEffect(() => {
-	axios
-	    .get('http://localhost:3001/persons')
-	    .then(response => setPersons(response.data))
+	personsService.getAll().then(fetchedPersons => setPersons(fetchedPersons))
     }, [])
 
     const handleSubmit = event => {
 	let found
 	event.preventDefault()
 	setFilterString('')
-	const personObject = {
+	const newPerson = {
 	    name: newName,
 	    number: newNumber,
-	    show: true,
 	}
-	if (persons.find(person => person.name == personObject.name)) {
+	if (persons.find(person => person.name.toLowerCase() === newPerson.name.toLowerCase())) {
 	    alert(`${newName} is already added to phonebook`)
-	} else if (found = persons.find(person => person.number == personObject.number)){
+	} else if (found = persons.find(person => person.number === newPerson.number)){
 	    alert(`${newNumber} is already added to phonebook for ${found.name}`)
 	} else {
-	    axios.post('http://localhost:3001/persons', personObject)
-		.then(response => {
-		    console.log(response)
-		    setPersons(persons.concat(response.data))
+	    personsService.create(newPerson)
+		.then(person => {
+		    setPersons(persons.concat(person))
 		    setNewName("")
 		    setNewNumber("")
 		})

@@ -19,18 +19,6 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": 4
-    },
-    {
-      "name": "Adam",
-      "number": "465-392-123",
-      "show": true,
-      "id": 5
-    },
-    {
-      "name": "Zsofi",
-      "number": "192-453-29",
-      "show": true,
-      "id": 6
     }
   ]
 }
