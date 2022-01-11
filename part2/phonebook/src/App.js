@@ -36,6 +36,17 @@ const App = () => {
 	}
     }
     
+    const deleteHandler = (persons, id) => {
+	const person = persons.find(person => person.id == id)
+	if (window.confirm(`Do you really want to delete ${person.name}`)) {
+	    personsService.remove(id).then(() => {
+		personsService.getAll().then(fetchedPersons => setPersons(fetchedPersons))
+	    })
+	}
+    }
+
+
+
     return (
 	    <div>
 	    <h2>Phonebook</h2>
@@ -47,7 +58,7 @@ const App = () => {
 	numberOnChange={event => setNewNumber(event.target.value)}
 	handleSubmit={handleSubmit}
 	    />
-	    <NumberList persons={persons} filterString={filterString} />
+	    <NumberList persons={persons} filterString={filterString} deleteHandler={deleteHandler} />
 	    </div>
     )
 }
