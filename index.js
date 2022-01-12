@@ -1,8 +1,20 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 app.use(express.json()) // for parsing
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :content'))
+
 const PORT=3001
+
+morgan.token('content', (request, response) => {
+    if (request.method === 'POST') {
+	return JSON.stringify(request.body)
+    } else {
+	return ""
+    }
+})
+
 
 let persons = [
     { 
@@ -30,8 +42,6 @@ let persons = [
 app.get('/info', (request, response) => {
     const date = new Date()
     let len = persons.length
-    console.log(persons)
-    console.log(len)
     response.send(`<p>Phonebook has ${len} people</p> <p>${date}</P`)
 })
 
@@ -61,7 +71,6 @@ const generateId = () =>
 
 app.post('/api/persons', (request, response) => {
     const body = request.body
-    
     if (!body.name) {
 	return response.status(400).json({
 	    error: 'name missing'
