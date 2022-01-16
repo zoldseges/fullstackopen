@@ -17,26 +17,28 @@ const App = () => {
 
     // TODO you still can add the same name twice if we add it from two different running clients
     const handleSubmit = event => {
-	let found
 	event.preventDefault()
 	setFilterString('')
 	const newPerson = {
 	    name: newName,
 	    number: newNumber,
 	}
+	let foundName = persons.find(person => person.name.toLowerCase() === newPerson.name.toLowerCase())
+	let foundNumber = persons.find(person => person.number === newPerson.number)
+
 	// TODO check if the overwritten phonenumber is not in the phonebook already
-	if (found = persons.find(person => person.name.toLowerCase() === newPerson.name.toLowerCase())) {
-	    if (window.confirm(`Do you want to overwrite ${found.name}'s number from\n` +
-                               `${found.number} to ${newPerson.number}`)) {
-		personsService.update(found.id, newPerson).then(() => {
+	if (foundName) {
+	    if (window.confirm(`Do you want to overwrite ${foundName.name}'s number from\n` +
+                               `${foundName.number} to ${newPerson.number}`)) {
+		personsService.update(foundName.id, newPerson).then(() => {
 		    personsService.getAll().then(fetchedPersons => setPersons(fetchedPersons))
 		    setNotification({ message: `${newPerson.name}'s number is overwritten to ${newPerson.number}`,
 				      type: `notification`
 				    })
 		})
 	    }
-	} else if (found = persons.find(person => person.number === newPerson.number)){
-	    setNotification({message: `${found.number} is already assigned to ${found.name}`,
+	} else if (foundNumber){
+	    setNotification({message: `${foundNumber.number} is already assigned to ${foundNumber.name}`,
 			     type: `error`
 			    })
 	} else {
@@ -54,7 +56,7 @@ const App = () => {
     
     const deleteHandler = (persons, id) => {
 	// TODO synchronize client side without refetching (like as we did at adding new number)
-	const person = persons.find(person => person.id == id)
+	const person = persons.find(person => person.id === id)
 	if (window.confirm(`Do you really want to delete ${person.name}`)) {
 	    personsService.remove(id).then(() => {
 		personsService.getAll().then(fetchedPersons => setPersons(fetchedPersons))
