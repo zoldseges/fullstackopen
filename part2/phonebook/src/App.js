@@ -35,6 +35,8 @@ const App = () => {
 		    setNotification({ message: `${newPerson.name}'s number is overwritten to ${newPerson.number}`,
 				      type: `notification`
 				    })
+		    setNewName("")
+		    setNewNumber("")
 		})
 	    }
 	} else if (foundNumber){
