@@ -53,6 +53,13 @@ const App = () => {
 		    setNewName("")
 		    setNewNumber("")
 		})
+		.catch(error => {
+		    setNotification({ message: error.response.data.error,
+				      type: `error`
+				    })
+		    setNewName("")
+		    setNewNumber("")
+		})
 	}
     }
     
