@@ -1,0 +1,3 @@
+[submodule "fullstackopen-backend"]
+	path = fullstackopen-backend
+	url = ./fullstackopen-backend/
